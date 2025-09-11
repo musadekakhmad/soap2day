@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://himovies-us.netlify.app/sitemap.xml
+Sitemap: https://vegamovies-us.netlify.app/
