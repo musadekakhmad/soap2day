@@ -17,7 +17,7 @@ const MOVIE_CATEGORIES = [
 const TV_CATEGORIES = [
   { key: "popular", title: "Popular TV Series" },
   { key: "airing_today", title: "Airing Today" },
-  { key: "on_the_air", title: "On TV" },
+  { key: "on_the_air", title: "On The Air" },
   { key: "top_rated", title: "Top Rated" },
 ];
 
