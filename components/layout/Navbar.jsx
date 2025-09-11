@@ -8,7 +8,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0">
         <Link href="/about" className="flex items-center space-x-2 text-white hover:text-red-500 transition-colors">
           <FaVideo className="text-2xl" />
-          <span className="text-xl font-bold">Himovies</span>
+          <span className="text-xl font-bold">Vegamovies</span>
         </Link>
         <div className="flex-grow flex justify-end items-center space-x-4">
           <Link href="/" className="text-white hover:text-red-500 transition-colors font-bold">

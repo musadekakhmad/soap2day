@@ -1,13 +1,30 @@
-const API_URL = 'https://tmdb-api-proxy.musadekakhmad.workers.dev';
+const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+const apiUrl = process.env.NEXT_PUBLIC_TMDB_API_URL;
+
+// Fungsi helper untuk fetch data
+const fetchApi = async (path, options = {}) => {
+  if (!apiKey || !apiUrl) {
+    throw new Error('API keys are not configured. Please check your .env.local file.');
+  }
+
+  const url = `${apiUrl}${path}?api_key=${apiKey}&language=en-US`;
+  const res = await fetch(url, {
+    cache: 'no-store', // Memastikan data selalu baru
+    ...options,
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(`API Error: ${errorData.status_message}`);
+  }
+
+  return res.json();
+};
 
 // Fungsi untuk mendapatkan film berdasarkan ID
 export async function getMovieById(movieId) {
   try {
-    const res = await fetch(`${API_URL}/movie/${movieId}`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch movie with ID: ${movieId}`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/movie/${movieId}`);
     return data;
   } catch (error) {
     console.error(`Error fetching movie details for ID ${movieId}:`, error);
@@ -18,11 +35,7 @@ export async function getMovieById(movieId) {
 // Fungsi untuk mendapatkan serial TV berdasarkan ID
 export async function getTvSeriesById(tvId) {
   try {
-    const res = await fetch(`${API_URL}/tv/${tvId}`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch TV series with ID: ${tvId}`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/tv/${tvId}`);
     return data;
   } catch (error) {
     console.error(`Error fetching TV series details for ID ${tvId}:`, error);
@@ -33,11 +46,7 @@ export async function getTvSeriesById(tvId) {
 // Fungsi untuk mendapatkan video (trailer) film
 export async function getMovieVideos(movieId) {
   try {
-    const res = await fetch(`${API_URL}/movie/${movieId}/videos`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch movie videos for ID: ${movieId}`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/movie/${movieId}/videos`);
     return data.results;
   } catch (error) {
     console.error(`Error fetching movie videos for ID ${movieId}:`, error);
@@ -48,11 +57,7 @@ export async function getMovieVideos(movieId) {
 // Fungsi untuk mendapatkan video (trailer) serial TV
 export async function getTvSeriesVideos(tvId) {
   try {
-    const res = await fetch(`${API_URL}/tv/${tvId}/videos`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch TV series videos for ID: ${tvId}`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/tv/${tvId}/videos`);
     return data.results;
   } catch (error) {
     console.error(`Error fetching TV series videos for ID ${tvId}:`, error);
@@ -63,11 +68,7 @@ export async function getTvSeriesVideos(tvId) {
 // Fungsi untuk mendapatkan kredit (aktor dan kru) film
 export async function getMovieCredits(movieId) {
   try {
-    const res = await fetch(`${API_URL}/movie/${movieId}/credits`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch movie credits for ID: ${movieId}`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/movie/${movieId}/credits`);
     return data;
   } catch (error) {
     console.error(`Error fetching movie credits for ID ${movieId}:`, error);
@@ -78,11 +79,7 @@ export async function getMovieCredits(movieId) {
 // Fungsi untuk mendapatkan ulasan film
 export async function getMovieReviews(movieId) {
   try {
-    const res = await fetch(`${API_URL}/movie/${movieId}/reviews`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch movie reviews for ID: ${movieId}`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/movie/${movieId}/reviews`);
     return data.results;
   } catch (error) {
     console.error(`Error fetching movie reviews for ID ${movieId}:`, error);
@@ -93,11 +90,7 @@ export async function getMovieReviews(movieId) {
 // Fungsi untuk mendapatkan kredit (aktor dan kru) serial TV
 export async function getTvSeriesCredits(tvId) {
   try {
-    const res = await fetch(`${API_URL}/tv/${tvId}/credits`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch TV series credits for ID: ${tvId}`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/tv/${tvId}/credits`);
     return data;
   } catch (error) {
     console.error(`Error fetching TV series credits for ID ${tvId}:`, error);
@@ -108,11 +101,7 @@ export async function getTvSeriesCredits(tvId) {
 // Fungsi untuk mendapatkan ulasan serial TV
 export async function getTvSeriesReviews(tvId) {
   try {
-    const res = await fetch(`${API_URL}/tv/${tvId}/reviews`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch TV series reviews for ID: ${tvId}`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/tv/${tvId}/reviews`);
     return data.results;
   } catch (error) {
     console.error(`Error fetching TV series reviews for ID ${tvId}:`, error);
@@ -121,13 +110,9 @@ export async function getTvSeriesReviews(tvId) {
 }
 
 // Fungsi untuk mencari film atau serial TV berdasarkan query
-export async function searchMoviesAndTv(query) {
+export async function searchMoviesAndTv(query, page = 1) {
   try {
-    const res = await fetch(`${API_URL}/search/multi?query=${encodeURIComponent(query)}`);
-    if (!res.ok) {
-      throw new Error('Failed to fetch search results');
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/search/multi?query=${encodeURIComponent(query)}&page=${page}`);
     return data.results;
   } catch (error) {
     console.error(`Error fetching search results for query '${query}':`, error);
@@ -138,11 +123,7 @@ export async function searchMoviesAndTv(query) {
 // Fungsi untuk mendapatkan film berdasarkan kategori
 export async function getMoviesByCategory(category, page = 1) {
   try {
-    const res = await fetch(`${API_URL}/movie/${category}?page=${page}`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch ${category} movies`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/movie/${category}?page=${page}`);
     return data.results;
   } catch (error) {
     console.error(`Error fetching ${category} movies:`, error);
@@ -153,11 +134,7 @@ export async function getMoviesByCategory(category, page = 1) {
 // Fungsi untuk mendapatkan serial TV berdasarkan kategori
 export async function getTvSeriesByCategory(category, page = 1) {
   try {
-    const res = await fetch(`${API_URL}/tv/${category}?page=${page}`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch ${category} TV series`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/tv/${category}?page=${page}`);
     return data.results;
   } catch (error) {
     console.error(`Error fetching ${category} TV series:`, error);
@@ -168,16 +145,10 @@ export async function getTvSeriesByCategory(category, page = 1) {
 // Fungsi untuk mendapatkan film serupa
 export async function getSimilarMovies(movieId) {
   try {
-    const res = await fetch(`${API_URL}/movie/${movieId}/similar`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch similar movies for ID: ${movieId}`);
-    }
-    const data = await res.json();
-    // PERBAIKAN: Mengembalikan array 'results' dari respons
+    const data = await fetchApi(`/movie/${movieId}/similar`);
     return data.results;
   } catch (error) {
     console.error(`Error fetching similar movies for ID ${movieId}:`, error);
-    // PERBAIKAN: Mengembalikan array kosong jika ada error
     return [];
   }
 }
@@ -185,11 +156,7 @@ export async function getSimilarMovies(movieId) {
 // Fungsi untuk mendapatkan serial TV serupa
 export async function getSimilarTvSeries(tvId) {
   try {
-    const res = await fetch(`${API_URL}/tv/${tvId}/similar`);
-    if (!res.ok) {
-      throw new Error(`Failed to fetch similar TV series for ID: ${tvId}`);
-    }
-    const data = await res.json();
+    const data = await fetchApi(`/tv/${tvId}/similar`);
     return data.results;
   } catch (error) {
     console.error(`Error fetching similar TV series for ID ${tvId}:`, error);
@@ -200,13 +167,7 @@ export async function getSimilarTvSeries(tvId) {
 // Fungsi untuk mencari film berdasarkan judul
 export const getMovieByTitle = async (title) => {
     try {
-        // Menggunakan endpoint pencarian dengan parameter 'query'
-        const response = await fetch(`${API_URL}/search/movie?query=${encodeURIComponent(title)}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch movie details');
-        }
-        const data = await response.json();
-        // Mengembalikan hasil pencarian yang paling relevan
+        const data = await fetchApi(`/search/movie?query=${encodeURIComponent(title)}`);
         return data.results && data.results.length > 0 ? data.results : null;
     } catch (error) {
         console.error(`Error fetching movie by title: ${title}`, error);
@@ -217,11 +178,7 @@ export const getMovieByTitle = async (title) => {
 // Fungsi untuk mencari serial TV berdasarkan judul
 export const getTvSeriesByTitle = async (title) => {
   try {
-    const response = await fetch(`${API_URL}/search/tv?query=${encodeURIComponent(title)}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch TV series details');
-    }
-    const data = await response.json();
+    const data = await fetchApi(`/search/tv?query=${encodeURIComponent(title)}`);
     return data.results && data.results.length > 0 ? data.results : null;
   } catch (error) {
     console.error(`Error fetching TV series by title: ${title}`, error);

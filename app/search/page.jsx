@@ -1,11 +1,44 @@
+"use client";
+
 import { searchMoviesAndTv } from '../../lib/api.jsx';
 import MovieList from '../../components/MovieList.jsx';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { useState, useEffect, use } from 'react'; // Import 'use'
 
-export default async function SearchPage({ searchParams }) {
-  // Fix: Added 'await' to ensure searchParams is resolved
-  const { query } = await searchParams;
+export default function SearchPage({ searchParams }) {
+  // Gunakan React.use() untuk membuka bungkus searchParams
+  const searchParamsWithQuery = use(searchParams);
+  const query = searchParamsWithQuery.query;
+
+  const [movies, setMovies] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    if (!query) return;
+
+    const fetchInitialData = async () => {
+      setIsLoading(true);
+      const initialMovies = await searchMoviesAndTv(query, 1); 
+      setMovies(initialMovies);
+      setIsLoading(false);
+      setHasMore(initialMovies.length > 0);
+    };
+
+    fetchInitialData();
+  }, [query]);
+
+  const handleLoadMore = async () => {
+    setIsLoading(true);
+    const nextPage = page + 1;
+    const newMovies = await searchMoviesAndTv(query, nextPage); 
+    setMovies(prevMovies => [...prevMovies, ...newMovies]);
+    setPage(nextPage);
+    setIsLoading(false);
+    setHasMore(newMovies.length > 0);
+  };
 
   if (!query) {
     return (
@@ -23,19 +56,30 @@ export default async function SearchPage({ searchParams }) {
     );
   }
 
-  const movies = await searchMoviesAndTv(query);
-
   return (
     <main className="min-h-screen p-8 bg-slate-900 text-white">
       <h1 className="text-4xl font-bold mb-2 text-center">
         Search Results for &quot;{query}&quot;
       </h1>
-      <p className="text-center text-gray-400 mb-8">
-        Found {movies.length} results.
-      </p>
+      {movies.length > 0 && (
+        <p className="text-center text-gray-400 mb-8">
+          Found {movies.length} results.
+        </p>
+      )}
 
-      {/* Renders the MovieList component to display the list of search results */}
       <MovieList movies={movies} />
+
+      {hasMore && (
+        <div className="flex justify-center mt-8">
+          <button 
+            onClick={handleLoadMore} 
+            disabled={isLoading} 
+            className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isLoading ? 'Loading...' : 'Load More'}
+          </button>
+        </div>
+      )}
     </main>
   );
 }

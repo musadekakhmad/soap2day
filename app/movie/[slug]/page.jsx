@@ -23,7 +23,7 @@ const createSlug = (item) => {
   return `${baseSlug}-${year}`;
 };
 
-// Fungsi generateMetadata untuk SEO dan OG tags
+// generateMetadata function for SEO and OG tags
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   
@@ -57,15 +57,14 @@ export async function generateMetadata({ params }) {
 
   if (!movieData) {
     return {
-      title: 'Halaman Tidak Ditemukan',
-      description: 'Halaman film yang Anda cari tidak ditemukan.'
+      title: 'Page Not Found',
+      description: 'The movie page you are looking for was not found.'
     };
   }
 
-  const movieTitle = movieData.title || 'Film Tanpa Judul';
-  const movieDescription = movieData.overview || 'Sinopsis tidak tersedia.';
+  const movieTitle = movieData.title || 'Untitled Movie';
+  const movieDescription = movieData.overview || 'Synopsis not available.';
   
-  // LOGIKA BARU: Pertama, coba gunakan backdrop_path (16:9), lalu kembali ke poster_path jika tidak tersedia.
   const movieImageUrl = movieData.backdrop_path ? `https://image.tmdb.org/t/p/w1280${movieData.backdrop_path}` : movieData.poster_path ? `https://image.tmdb.org/t/p/w1280${movieData.poster_path}` : '';
   
   const movieUrl = `https://himovies-us.netlify.app/movie/${slug}`;
@@ -92,13 +91,14 @@ export async function generateMetadata({ params }) {
   };
 }
 
+
 export default async function MoviePage({ params }) {
   const { slug } = await params;
 
   let movieData = null;
   const id = parseInt(slug, 10);
 
-  // Split the slug into title and year, if a year exists
+  // Separate the slug into title and year, if a year exists
   const slugParts = slug.split('-');
   const lastPart = slugParts[slugParts.length - 1];
   const slugYear = /^\d{4}$/.test(lastPart) ? lastPart : null;
@@ -112,7 +112,6 @@ export default async function MoviePage({ params }) {
     const searchResults = await searchMoviesAndTv(slugTitle.replace(/-/g, ' '));
     
     let matchingMovie = searchResults.find(item => {
-      // Create a clean title from the API result for comparison
       const itemTitle = item.title?.toLowerCase().replace(/[^a-z0-9\s]/g, '');
       if (!itemTitle) {
         return false;
@@ -162,7 +161,7 @@ export default async function MoviePage({ params }) {
             alt={`${movieData.title} backdrop`}
             fill
             style={{ objectFit: 'cover' }}
-            className="rounded-lg shadow-xl"
+            className="w-full h-full object-cover rounded-lg shadow-xl"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent"></div>
@@ -180,6 +179,7 @@ export default async function MoviePage({ params }) {
               height={750}
               className="w-full h-auto rounded-lg shadow-xl"
               priority
+              unoptimized={!posterUrl}
             />
           </div>
 
@@ -197,13 +197,13 @@ export default async function MoviePage({ params }) {
                 {movieData.vote_average.toFixed(1)} / 10
               </span>
               <span className="text-gray-400 text-sm">
-                {movieData.release_date?.substring(0, 4)}
+                {movieData.runtime ? `${Math.floor(movieData.runtime / 60)}h ${movieData.runtime % 60}m` : 'N/A'}
               </span>
               <span className="text-gray-400 text-sm">
-                {movieData.runtime ? `${movieData.runtime} minutes` : ''}
+                {movieData.release_date?.substring(0, 4)}
               </span>
             </div>
-            
+
             <h2 className="text-2xl font-bold mt-6 mb-2">Synopsis</h2>
             <p className="text-gray-300 text-justify mb-6">
               {movieData.overview || 'Synopsis not available.'}
@@ -222,7 +222,7 @@ export default async function MoviePage({ params }) {
               <div>
                 <p>
                   <strong>Director:</strong>{' '}
-                  {credits.crew.find(member => member.job === 'Director')?.name || 'N/A'}
+                  {crew.find(member => member.job === 'Director')?.name || 'N/A'}
                 </p>
                 <p>
                   <strong>Website:</strong> <a href={movieData.homepage} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{movieData.homepage}</a>
@@ -234,35 +234,6 @@ export default async function MoviePage({ params }) {
       </div>
 
       <div className="p-4 sm:p-8 md:p-12">
-        {/* Crew Section */}
-        {crew.length > 0 && (
-          <div className="mt-8 border-t border-gray-700 pt-8">
-            <h2 className="text-2xl font-bold mb-4 text-blue-400">Key Crew</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-              {crew.map((member) => (
-                <div key={member.credit_id} className="text-center">
-                  <div className="relative w-24 h-24 rounded-full overflow-hidden mx-auto mb-2 border-2 border-gray-600">
-                    {member.profile_path ? (
-                      <Image
-                        src={`https://image.tmdb.org/t/p/w200${member.profile_path}`}
-                        alt={member.name}
-                        fill
-                        style={{ objectFit: 'cover' }}
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gray-700 flex items-center justify-center">
-                        <FaUserCircle className="text-4xl text-gray-400" />
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-xs font-semibold text-white truncate">{member.name}</p>
-                  <p className="text-[10px] text-gray-400 truncate">{member.job}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* Cast Section */}
         <div className="mt-8 border-t border-gray-700 pt-8">
           <h2 className="text-2xl font-bold mb-4 text-blue-400">Main Cast</h2>
@@ -270,13 +241,14 @@ export default async function MoviePage({ params }) {
             <div className="flex overflow-x-auto space-x-4 pb-4 no-scrollbar">
               {cast.map((actor) => (
                 <div key={actor.id} className="flex-shrink-0 w-24 text-center">
-                  <div className="relative w-24 h-24 rounded-full overflow-hidden mb-2 border-2 border-gray-600">
+                  <div className="w-24 h-24 rounded-full overflow-hidden mb-2 border-2 border-gray-600">
                     {actor.profile_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`}
                         alt={actor.name}
-                        fill
-                        style={{ objectFit: 'cover' }}
+                        width={96}
+                        height={96}
+                        className="w-full h-full object-cover"
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-700 flex items-center justify-center">
@@ -293,7 +265,7 @@ export default async function MoviePage({ params }) {
             <p className="text-gray-400">Cast information not available.</p>
           )}
         </div>
-        
+
         {/* Trailer Section */}
         {trailer && (
           <div className="mt-8 border-t border-gray-700 pt-8">
@@ -329,11 +301,11 @@ export default async function MoviePage({ params }) {
         </div>
 
         {/* Similar Movies Section */}
-        {similarMovies && similarMovies.results && similarMovies.results.length > 0 && (
+        {similarMovies && similarMovies.length > 0 && (
           <div className="mt-8 border-t border-gray-700 pt-8">
             <h2 className="text-2xl font-bold mb-4 text-blue-400">Similar Movies</h2>
             <div className="flex overflow-x-auto space-x-4 pb-4 no-scrollbar">
-              {similarMovies.results.slice(0, 10).map(item => {
+              {similarMovies.slice(0, 10).map(item => {
                 const itemSlug = createSlug(item);
                 const itemUrl = `/movie/${itemSlug}`;
 
@@ -353,6 +325,7 @@ export default async function MoviePage({ params }) {
                         width={200}
                         height={300}
                         className="w-full h-auto object-cover rounded-lg"
+                        unoptimized={!item.poster_path}
                       />
                       <div className="absolute inset-0 bg-black bg-opacity-70 flex flex-col justify-end p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <h3 className="text-xs md:text-sm font-semibold text-white truncate mb-1">
@@ -371,11 +344,11 @@ export default async function MoviePage({ params }) {
             </div>
           </div>
         )}
-
-        {/* Tombol Streaming Bawah */}
+		
+		{/* Bottom Streaming Button */}
         <div className="mt-12 text-center">
              <a href={`/movie/${slug}/stream`}>
-              <button className="bg-blue-600 hover:bg-green-600 text-white font-bold py-4 px-10 rounded-lg text-xl transition-transform transform hover:scale-105 shadow-lg">
+              <button className="bg-blue-600 hover:bg-red-600 text-white font-bold py-4 px-10 rounded-lg text-xl transition-transform transform hover:scale-105 shadow-lg">
                 🎬 Stream Now
               </button>
             </a>

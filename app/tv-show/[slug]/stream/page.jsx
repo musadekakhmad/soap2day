@@ -1,48 +1,98 @@
 import { notFound } from 'next/navigation';
-import { getTvSeriesById, getSimilarTvSeries, getTvSeriesByTitle } from '../../../../lib/api';
-import WatchClient from './WatchClient.jsx';
+import { getTvSeriesById, getSimilarTvSeries, searchMoviesAndTv } from '../../../../lib/api';
+import WatchClient from './WatchClient';
+
+// Fungsi utilitas untuk membuat slug dari judul TV show
+const createSlug = (item) => {
+  const title = item.name;
+  if (!title) return '';
+  const baseSlug = title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').trim();
+  
+  let year = '';
+  if (item.first_air_date) {
+    year = item.first_air_date.substring(0, 4);
+  }
+  return `${baseSlug}-${year}`;
+};
+
+// Fungsi untuk mengambil data dari endpoint API kata kunci TMDb
+const getEroticMovies = async (page = 1) => {
+    const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY; 
+    const keywordId = 190370;
+    const url = `https://api.themoviedb.org/3/keyword/${keywordId}/movies?api_key=${apiKey}&page=${page}`;
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Failed to fetch erotic movies data');
+        }
+        const data = await response.json();
+        return data.results;
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+};
 
 // ===================================
-// MAIN SERVER COMPONENT
+// KOMPONEN SERVER UTAMA
 // ===================================
-// This is a server component that fetches data and passes it to the client component.
+// Ini adalah komponen server yang mengambil data dan meneruskannya ke komponen klien.
 export default async function StreamPage({ params }) {
     const { slug } = await params;
 
-    let id = parseInt(slug.split('-').pop(), 10);
     let tvDetails = null;
-
-    // First, try to get the TV show ID from the end of the slug
-    if (!isNaN(id)) {
-        tvDetails = await getTvSeriesById(id);
-    }
-    
-    // If TV show details were not found using the ID, or if the slug didn't have an ID,
-    // try to get the TV show by its title.
-    if (!tvDetails) {
-        const titleSlug = slug.replace(/-\d+$/, ''); // Remove ID from slug if it exists
-        const searchResults = await getTvSeriesByTitle(titleSlug);
-        if (searchResults && searchResults.length > 0) {
-            id = searchResults[0].id;
-            tvDetails = await getTvSeriesById(id);
+    const id = parseInt(slug, 10);
+  
+    // Pisahkan slug menjadi judul dan tahun, jika tahun ada
+    const slugParts = slug.split('-');
+    const lastPart = slugParts[slugParts.length - 1];
+    const slugYear = /^\d{4}$/.test(lastPart) ? lastPart : null;
+    const slugTitle = slugYear ? slugParts.slice(0, -1).join('-') : slug;
+  
+    // Periksa apakah slug adalah ID numerik
+    if (!isNaN(id) && slugParts.length === 1) {
+      tvDetails = await getTvSeriesById(id);
+    } else {
+      // Cari TV show berdasarkan bagian judul dari slug
+      const searchResults = await searchMoviesAndTv(slugTitle.replace(/-/g, ' '));
+      
+      let matchingTvShow = searchResults.find(item => {
+        const itemTitle = item.name?.toLowerCase().replace(/[^a-z0-9\s]/g, '');
+        if (!itemTitle) {
+          return false;
         }
+  
+        const slugTitleClean = slugTitle.toLowerCase().replace(/-/g, '').replace(/[^a-z0-9\s]/g, '');
+  
+        const titleMatch = itemTitle === slugTitleClean ||
+                           itemTitle.replace(/\s/g, '') === slugTitleClean;
+  
+        const yearMatch = !slugYear || (item.first_air_date && item.first_air_date.substring(0, 4) === slugYear);
+        
+        return item.media_type === 'tv' && titleMatch && yearMatch;
+      });
+  
+      if (matchingTvShow) {
+        tvDetails = await getTvSeriesById(matchingTvShow.id);
+      }
     }
 
-    // If TV show details are still not found, show a 404 page
+    // Jika detail TV show masih belum ditemukan, tampilkan halaman 404
     if (!tvDetails) {
         notFound();
     }
+    
+    // Ambil film-film erotis untuk bagian "You Might Also Like"
+    const similarMedia = await getEroticMovies(1);
 
-    // Fetch similar TV shows
-    const similarTvShows = await getSimilarTvSeries(id);
-
-    // Pass the fetched data as props to the client component
+    // Teruskan data yang diambil sebagai props ke komponen klien
     return (
         <WatchClient
-            mediaType="tv-show"
+            mediaType="movie"
             id={tvDetails.id}
             initialDetails={tvDetails}
-            initialSimilarMedia={similarTvShows}
+            initialSimilarMedia={similarMedia}
         />
     );
 }

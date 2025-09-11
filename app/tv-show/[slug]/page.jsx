@@ -23,7 +23,7 @@ const createSlug = (item) => {
   return `${baseSlug}-${year}`;
 };
 
-// Fungsi generateMetadata untuk SEO dan OG tags
+// Generate metadata function for SEO and OG tags
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   
@@ -57,15 +57,14 @@ export async function generateMetadata({ params }) {
 
   if (!tvShowData) {
     return {
-      title: 'Halaman Tidak Ditemukan',
-      description: 'Halaman serial TV yang Anda cari tidak ditemukan.'
+      title: 'Page Not Found',
+      description: 'The TV series page you are looking for could not be found.'
     };
   }
 
-  const tvShowTitle = tvShowData.name || 'Serial TV Tanpa Judul';
-  const tvShowDescription = tvShowData.overview || 'Sinopsis tidak tersedia.';
+  const tvShowTitle = tvShowData.name || 'Untitled TV Series';
+  const tvShowDescription = tvShowData.overview || 'Synopsis not available.';
   
-  // LOGIKA BARU: Pertama, coba gunakan backdrop_path (16:9), lalu kembali ke poster_path jika tidak tersedia.
   const tvShowImageUrl = tvShowData.backdrop_path ? `https://image.tmdb.org/t/p/w1280${tvShowData.backdrop_path}` : tvShowData.poster_path ? `https://image.tmdb.org/t/p/w1280${tvShowData.poster_path}` : '';
   
   const tvShowUrl = `https://himovies-us.netlify.app/tv-show/${slug}`;
@@ -364,11 +363,11 @@ export default async function TvShowPage({ params }) {
         </div>
 
         {/* Similar TV Shows Section */}
-        {similarTvShows && similarTvShows.results && similarTvShows.results.length > 0 && (
+        {similarTvShows && similarTvShows.length > 0 && (
           <div className="mt-8 border-t border-gray-700 pt-8">
             <h2 className="text-2xl font-bold mb-4 text-blue-400">Similar TV Shows</h2>
             <div className="flex overflow-x-auto space-x-4 pb-4 no-scrollbar">
-              {similarTvShows.results.slice(0, 10).map(item => {
+              {similarTvShows.slice(0, 10).map(item => {
                 const itemSlug = createSlug(item);
                 const itemUrl = `/tv-show/${itemSlug}`;
 
@@ -408,7 +407,7 @@ export default async function TvShowPage({ params }) {
           </div>
         )}
 		
-		{/* Tombol Streaming Bawah */}
+		{/* Bottom Stream Button */}
         <div className="mt-12 text-center">
              <a href={`/tv-show/${slug}/stream`}>
               <button className="bg-blue-600 hover:bg-red-600 text-white font-bold py-4 px-10 rounded-lg text-xl transition-transform transform hover:scale-105 shadow-lg">

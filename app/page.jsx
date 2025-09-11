@@ -79,8 +79,8 @@ export default function Home() {
 
   return (
     <main className="min-h-screen p-8 bg-slate-900 text-white">
-      <h1 className="text-5xl md:text-6xl font-extrabold text-center text-orange-400 mb-4 drop-shadow-lg">
-        Himovies
+      <h1 className="text-5xl md:text-6xl font-extrabold text-center text-blue-400 mb-4 drop-shadow-lg">
+        Vegamovies
       </h1>
       <p className="text-xl md:text-2xl text-center text-gray-300 mb-12">
         Your ultimate source for discovering the most popular, latest, and your favorite movies and TV series. Explore a wide-ranging collection of films and TV shows, including what's currently playing, coming soon, and top-rated.
@@ -100,7 +100,7 @@ export default function Home() {
               <div className="text-center mt-6">
                 <button
                   onClick={() => loadMoreMovies(category.key, index)}
-                  className="px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 shadow-lg text-white bg-blue-600 hover:bg-blue-700"
+                  className="px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 shadow-lg text-white bg-blue-600 hover:bg-red-700"
                 >
                   Load More
                 </button>
@@ -120,7 +120,7 @@ export default function Home() {
               <div className="text-center mt-6">
                 <button
                   onClick={() => loadMoreTv(category.key, index)}
-                  className="px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 shadow-lg text-white bg-blue-600 hover:bg-blue-700"
+                  className="px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 shadow-lg text-white bg-red-600 hover:bg-blue-700"
                 >
                   Load More
                 </button>
