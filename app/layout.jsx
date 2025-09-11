@@ -9,8 +9,8 @@ export const metadata = {
   openGraph: {
     title: 'Vegamovies: Your Hub for Free Movies, Shows & Web Series Downloads',
     description: 'Vegamovies is your ultimate destination. Enjoy unlimited access to thousands of movies, TV shows, and web series, all available for free download in excellent quality. ',
-    url: 'https://vegamovies.netlify.app/',
-    siteName: 'Himovies',
+    url: 'https://vegamovies-us.netlify.app/',
+    siteName: 'Vegamovies',
     images: [
       {
         url: 'https://live.staticflickr.com/65535/54777580906_77cfe0ccdf_b.jpg',
