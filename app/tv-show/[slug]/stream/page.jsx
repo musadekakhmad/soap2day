@@ -15,23 +15,25 @@ const createSlug = (item) => {
   return `${baseSlug}-${year}`;
 };
 
-// Fungsi untuk mengambil data dari endpoint API kata kunci TMDb
+// Function to fetch data from the TMDb keyword API
 const getEroticMovies = async (page = 1) => {
     const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY; 
     const keywordId = 190370;
-    const url = `https://api.themoviedb.org/3/keyword/${keywordId}/movies?api_key=${apiKey}&page=${page}`;
-    
-    try {
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Failed to fetch erotic movies data');
-        }
-        const data = await response.json();
-        return data.results;
-    } catch (error) {
-        console.error(error);
-        return [];
+
+    const url = `https://api.themoviedb.org/3/keyword/${keywordId}/movies?api_key=${API_KEY}&page=${page}`;
+    console.log('Fetching from URL:', url); // Log the URL being fetched
+
+    const response = await fetch(url);
+
+    // Add logs for response status and error text
+    console.log('Response status:', response.status);
+    if (!response.ok) {
+        console.error('API Error:', await response.text());
+        throw new Error('Failed to fetch erotic movies data');
     }
+
+    const data = await response.json();
+    return data.results; // The API returns an array of movies in the 'results' property
 };
 
 // ===================================
@@ -83,8 +85,9 @@ export default async function StreamPage({ params }) {
         notFound();
     }
     
-    // Ambil film-film erotis untuk bagian "You Might Also Like"
-    const similarMedia = await getEroticMovies(1);
+    // Fetch similar movies from the keyword endpoint instead of the original movie ID
+    // We start with page 1
+    const similarMovies = await getEroticMovies(1);
 
     // Teruskan data yang diambil sebagai props ke komponen klien
     return (
