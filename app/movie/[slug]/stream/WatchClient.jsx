@@ -69,7 +69,7 @@ export default function WatchClient({ mediaType, id, initialDetails, initialSimi
 
     // Function to fetch data from the TMDb keyword API
     const getEroticMovies = async (page = 1) => {
-        const API_KEY = '92d8deed10d8735da58f6777deee8a74'; 
+        const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY; 
         const keywordId = 190370;
         const url = `https://api.themoviedb.org/3/keyword/${keywordId}/movies?api_key=${API_KEY}&page=${page}`;
         
