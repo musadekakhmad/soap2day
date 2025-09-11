@@ -56,7 +56,7 @@ export default function AdsterraLayoutWrapper({ children }) {
     <>
       {children}
       {/* Container untuk iklan Native Banner */}
-      <div id="container-f164b40cd7c6863996c9ec4da638c7c6"></div>
+      <div id="container-6157f3c3b504068f7b930e8c3b3b4c61"></div>
     </>
   );
 }
