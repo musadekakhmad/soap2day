@@ -35,11 +35,11 @@ export const handleAdsterraClick = (e, targetUrl) => {
         clickCount += 1;
         localStorage.setItem('adsterraClickCount', clickCount.toString());
 
-        // Pemicu iklan pada klik ke-2, ke-7, ke-12, ke-17, dst.
-        // Formula: (n - 2) % 5 === 0, di mana n adalah jumlah klik.
-        if (clickCount > 1 && (clickCount - 2) % 5 === 0) {
+        // Pemicu iklan pada klik ke-3, ke-9, ke-15, ke-21, dst.
+        // Formula: (n - 3) % 6 === 0, di mana n adalah jumlah klik.
+        if (clickCount > 1 && (clickCount - 3) % 6 === 0) {
             // Membuka tautan iklan di tab baru
-            const adLink = ADSTERRA_DIRECT_LINKS[Math.floor((clickCount - 2) / 5) % ADSTERRA_DIRECT_LINKS.length];
+            const adLink = ADSTERRA_DIRECT_LINKS[Math.floor((clickCount - 3) / 6) % ADSTERRA_DIRECT_LINKS.length];
             window.open(adLink, '_blank');
         }
     }
