@@ -4,19 +4,19 @@ import Footer from '../components/layout/Footer';
 import AdsterraLayoutWrapper from '../components/AdsterraLayoutWrapper';
 
 export const metadata = {
-  title: 'Vegamovies: Your Hub for Free Movies, Shows & Web Series Downloads',
-  description: 'Vegamovies is your ultimate destination. Enjoy unlimited access to thousands of movies, TV shows, and web series, all available for free download in excellent quality. ',
+  title: 'Splitsville: Free HD Movies, TV Shows and Web Series',
+  description: 'Splitsville is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today! ',
   openGraph: {
-    title: 'Vegamovies: Your Hub for Free Movies, Shows & Web Series Downloads',
-    description: 'Vegamovies is your ultimate destination. Enjoy unlimited access to thousands of movies, TV shows, and web series, all available for free download in excellent quality. ',
-    url: 'https://vegamovies-us.netlify.app/',
-    siteName: 'Vegamovies',
+    title: 'Splitsville: Free HD Movies, TV Shows and Web Series',
+    description: 'Splitsville is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today! ',
+    url: 'https://splitsvillemovie.netlify.app',
+    siteName: 'Splitsville',
     images: [
       {
-        url: 'https://live.staticflickr.com/65535/54777580906_77cfe0ccdf_b.jpg',
+        url: 'https://live.staticflickr.com/65535/54781392103_d6246d6730_b.jpg',
         width: 1200,
         height: 630,
-        alt: 'Vegamovies - Your Hub for Free Movies, Shows & Web Series Downloads',
+        alt: 'Splitsville - Free HD Movies, TV Shows and Web Series',
       },
     ],
     locale: 'id_ID',
@@ -28,9 +28,9 @@ export const metadata = {
     card: 'summary_large_image',
     site: '@WatchStream123',
     creator: '@WatchStream123',
-    title: 'Vegamovies: Your Hub for Free Movies, Shows & Web Series Downloads',
-    description: 'Vegamovies is your ultimate destination. Enjoy unlimited access to thousands of movies, TV shows, and web series, all available for free download in excellent quality. ',
-    images: ['https://live.staticflickr.com/65535/54777580906_77cfe0ccdf_b.jpg'],
+    title: 'Splitsville: Free HD Movies, TV Shows and Web Series',
+    description: 'Splitsville is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today!',
+    images: ['https://live.staticflickr.com/65535/54781392103_d6246d6730_b.jpg'],
   },
   // Tambahkan tag meta eksplisit untuk Facebook
   other: {

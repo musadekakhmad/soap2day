@@ -2,7 +2,7 @@ import { FaStar } from 'react-icons/fa';
 
 export default function MovieList({ movies }) {
   if (!movies || movies.length === 0) {
-    return <p className="text-center text-gray-400">Tidak ada film atau serial TV ditemukan.</p>;
+    return <p className="text-center text-gray-400">No Movies or TV Series Found.</p>;
   }
 
   const getImageUrl = (path) => {

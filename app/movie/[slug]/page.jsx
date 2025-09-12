@@ -67,16 +67,16 @@ export async function generateMetadata({ params }) {
   
   const movieImageUrl = movieData.backdrop_path ? `https://image.tmdb.org/t/p/w1280${movieData.backdrop_path}` : movieData.poster_path ? `https://image.tmdb.org/t/p/w1280${movieData.poster_path}` : '';
   
-  const movieUrl = `https://himovies-us.netlify.app/movie/${slug}`;
+  const movieUrl = `https://Splitsvillemovie.netlify.app/movie/${slug}`;
 
   return {
-    title: `${movieTitle} | Himovies`,
+    title: `${movieTitle} | Splitsville`,
     description: movieDescription,
     alternates: {
       canonical: movieUrl,
     },
     openGraph: {
-      title: `${movieTitle} | Himovies`,
+      title: `${movieTitle} | Splitsville`,
       description: movieDescription,
       url: movieUrl,
       type: 'website',
@@ -86,7 +86,7 @@ export async function generateMetadata({ params }) {
           alt: movieTitle,
         },
       ],
-      siteName: 'Himovies',
+      siteName: 'Splitsville',
     },
   };
 }
