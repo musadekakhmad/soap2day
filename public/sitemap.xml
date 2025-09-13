@@ -1,55 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://vegamovies-us.netlify.app/</loc>
+        <loc>https://soap2day-us.netlify.app/</loc>
         <lastmod>2025-09-11</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://vegamovies-us.netlify.app/about</loc>
+        <loc>https://soap2day-us.netlify.app/about</loc>
         <lastmod>2025-09-11</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://vegamovies-us.netlify.app/movie/weapons</loc>
+        <loc>https://soap2day-us.netlify.app/movie/weapons</loc>
         <lastmod>2025-09-11</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://vegamovies-us.netlify.app/tv-show/the-rookie</loc>
+        <loc>https://soap2day-us.netlify.app/tv-show/the-rookie</loc>
         <lastmod>2025-09-11</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://vegamovies-us.netlify.app/movie/avengers-endgame-2019</loc>
+        <loc>https://soap2day-us.netlify.app/movie/avengers-endgame-2019</loc>
         <lastmod>2025-09-11</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://vegamovies-us.netlify.app/tv-show/burka-avengers-2013</loc>
+        <loc>https://soap2day-us.netlify.app/tv-show/burka-avengers-2013</loc>
         <lastmod>2025-09-11</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://vegamovies-us.netlify.app/movie/86331</loc>
+        <loc>https://soap2day-us.netlify.app/movie/86331</loc>
         <lastmod>2025-09-11</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
 	<url>
-        <loc>https://vegamovies-us.netlify.app/movie/the-godfather/stream</loc>
+        <loc>https://soap2day-us.netlify.app/movie/the-godfather/stream</loc>
         <lastmod>2025-09-11</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
 	<url>
-        <loc>https://vegamovies-us.netlify.app/search?query=super</loc>
+        <loc>https://soap2day-us.netlify.app/search?query=super</loc>
         <lastmod>2025-09-11</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>

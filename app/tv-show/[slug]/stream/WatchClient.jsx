@@ -7,28 +7,42 @@ import { notFound } from 'next/navigation';
 // ===================================
 // UTILITY FUNCTIONS
 // ===================================
+// Utility function to create a slug from a movie title
+const createSlug = (item) => {
+    const title = item.title;
+    if (!title) return '';
+    const baseSlug = title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').trim();
+    
+    let year = '';
+    if (item.release_date) {
+        year = item.release_date.substring(0, 4);
+    }
+    return `${baseSlug}-${year}`;
+};
 
-// Komponen untuk menampilkan kartu film/serial TV
+// Component to display a movie/TV show card
 function MediaCard({ media, mediaType }) {
     if (!media) {
         return null;
     }
 
     const POSTER_IMAGE_URL = 'https://image.tmdb.org/t/p/w500';
-    // Menggunakan mediaType yang diteruskan dari komponen induk, atau menggunakan tipe dari objek media
+    // Use the mediaType passed from the parent component, or use the type from the media object
     const cardMediaType = mediaType || media.media_type;
     const mediaTitle = media.title || media.name;
     
-    // Mendapatkan tahun rilis
+    // Get the release year
     const releaseYear = media.release_date ? media.release_date.substring(0, 4) : 'N/A';
 
     const posterPath = media.poster_path && media.poster_path !== ""
         ? `${POSTER_IMAGE_URL}${media.poster_path}`
         : 'https://placehold.co/500x750?text=No+Image';
 
-    const targetUrl = `/${cardMediaType}/${media.id}`;
+    // Create the new URL format with the title and year slug
+    const mediaSlug = createSlug(media);
+    const targetUrl = `/${cardMediaType}/${mediaSlug}`;
 
-    // Memeriksa apakah sumbernya adalah URL placeholder
+    // Check if the source is a placeholder URL
     const isPlaceholder = posterPath.includes('placehold.co');
 
     return (
@@ -53,10 +67,10 @@ function MediaCard({ media, mediaType }) {
 // ===================================
 // CLIENT COMPONENT
 // ===================================
-// Ini adalah komponen klien untuk fitur interaktif
+// This is a client component for interactive features
 export default function WatchClient({ mediaType, id, initialDetails, initialSimilarMedia }) {
     
-    // Menangani kasus di mana initialDetails tidak terdefinisi, yang dapat menyebabkan TypeError
+    // Handle the case where initialDetails is undefined, which can cause the TypeError
     if (!initialDetails) {
         return <div>Error: Movie details not found.</div>;
     }
@@ -67,9 +81,9 @@ export default function WatchClient({ mediaType, id, initialDetails, initialSimi
     const [page, setPage] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
 
-    // Fungsi untuk mengambil data dari API kata kunci TMDb
+    // Function to fetch data from the TMDb keyword API
     const getEroticMovies = async (page = 1) => {
-        const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY;
+        const API_KEY = process.env.NEXT_PUBLIC_TMDB_API_KEY; 
         const keywordId = 190370;
         const url = `https://api.themoviedb.org/3/keyword/${keywordId}/movies?api_key=${API_KEY}&page=${page}`;
         
@@ -114,7 +128,7 @@ export default function WatchClient({ mediaType, id, initialDetails, initialSimi
             <div className="container mx-auto px-4 py-8 relative z-10">
                 {/* Backdrop Section */}
                 <div className="absolute inset-0 z-0 overflow-hidden">
-                    {/* Latar belakang sekarang akan selalu ditampilkan jika tersedia, baik untuk film maupun serial TV. */}
+                    {/* The backdrop will now always be shown if available, for both movies and TV shows. */}
                     {initialDetails.backdrop_path && (
                         <img
                             src={`${BACKDROP_IMAGE_URL}${initialDetails.backdrop_path}`}
@@ -139,19 +153,19 @@ export default function WatchClient({ mediaType, id, initialDetails, initialSimi
                                     height={750}
                                     className="w-full h-auto rounded-xl shadow-2xl"
                                 />
-                                {/* Tombol Streaming di bawah poster, tidak di tengah */}
+                                {/* Streaming Buttons below the poster, not centered */}
                                 <div className="mt-4">
                                     <h3 className="text-lg font-semibold mb-2">Select Stream Source</h3>
                                     <div className="flex space-x-4">
                                         <button
                                             onClick={() => handleStream(id, 'stream1')}
-                                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 shadow-lg"
+                                            className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 shadow-lg"
                                         >
                                             Stream 1
                                         </button>
                                         <button
                                             onClick={() => handleStream(id, 'stream2')}
-                                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 shadow-lg"
+                                            className="bg-red-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 shadow-lg"
                                         >
                                             Stream 2
                                         </button>
@@ -197,12 +211,12 @@ export default function WatchClient({ mediaType, id, initialDetails, initialSimi
                                 <MediaCard key={media.id} media={media} mediaType={mediaType} />
                             ))}
                         </div>
-                        {/* Tombol Muat Lebih Banyak */}
+                        {/* Load More Button */}
                         <div className="flex justify-center mt-8">
                             <button
                                 onClick={loadMoreMovies}
                                 disabled={isLoading}
-                                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition-colors disabled:bg-gray-700 disabled:cursor-not-allowed"
+                                className="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-red-700 transition-colors disabled:bg-gray-700 disabled:cursor-not-allowed"
                             >
                                 {isLoading ? 'Loading...' : 'Load More'}
                             </button>

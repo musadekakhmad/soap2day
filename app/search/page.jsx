@@ -74,7 +74,7 @@ export default function SearchPage({ searchParams }) {
           <button 
             onClick={handleLoadMore} 
             disabled={isLoading} 
-            className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-6 py-3 bg-blue-700 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Loading...' : 'Load More'}
           </button>

@@ -7,6 +7,18 @@ import { notFound } from 'next/navigation';
 // ===================================
 // UTILITY FUNCTIONS
 // ===================================
+// Utility function to create a slug from a movie title
+const createSlug = (item) => {
+    const title = item.title;
+    if (!title) return '';
+    const baseSlug = title.toLowerCase().replace(/[^a-z0-9\s-]/g, '').replace(/\s+/g, '-').trim();
+    
+    let year = '';
+    if (item.release_date) {
+        year = item.release_date.substring(0, 4);
+    }
+    return `${baseSlug}-${year}`;
+};
 
 // Component to display a movie/TV show card
 function MediaCard({ media, mediaType }) {
@@ -26,7 +38,9 @@ function MediaCard({ media, mediaType }) {
         ? `${POSTER_IMAGE_URL}${media.poster_path}`
         : 'https://placehold.co/500x750?text=No+Image';
 
-    const targetUrl = `/${cardMediaType}/${media.id}`;
+    // Create the new URL format with the title and year slug
+    const mediaSlug = createSlug(media);
+    const targetUrl = `/${cardMediaType}/${mediaSlug}`;
 
     // Check if the source is a placeholder URL
     const isPlaceholder = posterPath.includes('placehold.co');
@@ -145,13 +159,13 @@ export default function WatchClient({ mediaType, id, initialDetails, initialSimi
                                     <div className="flex space-x-4">
                                         <button
                                             onClick={() => handleStream(id, 'stream1')}
-                                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 shadow-lg"
+                                            className="bg-green-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 shadow-lg"
                                         >
                                             Stream 1
                                         </button>
                                         <button
                                             onClick={() => handleStream(id, 'stream2')}
-                                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 shadow-lg"
+                                            className="bg-red-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 shadow-lg"
                                         >
                                             Stream 2
                                         </button>
@@ -202,7 +216,7 @@ export default function WatchClient({ mediaType, id, initialDetails, initialSimi
                             <button
                                 onClick={loadMoreMovies}
                                 disabled={isLoading}
-                                className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-blue-700 transition-colors disabled:bg-gray-700 disabled:cursor-not-allowed"
+                                className="bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-lg hover:bg-red-700 transition-colors disabled:bg-gray-700 disabled:cursor-not-allowed"
                             >
                                 {isLoading ? 'Loading...' : 'Load More'}
                             </button>

@@ -80,10 +80,10 @@ export default function Home() {
   return (
     <main className="min-h-screen p-8 bg-slate-900 text-white">
       <h1 className="text-5xl md:text-6xl font-extrabold text-center text-blue-400 mb-4 drop-shadow-lg">
-        Vegamovies
+        Soap2day
       </h1>
       <p className="text-xl md:text-2xl text-center text-gray-300 mb-12">
-        Your ultimate source for discovering the most popular, latest, and your favorite movies and TV series. Explore a wide-ranging collection of films and TV shows, including what's currently playing, coming soon, and top-rated.
+        Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today!
       </p>
 
       {loading ? (

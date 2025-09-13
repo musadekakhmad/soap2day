@@ -4,19 +4,19 @@ import Footer from '../components/layout/Footer';
 import AdsterraLayoutWrapper from '../components/AdsterraLayoutWrapper';
 
 export const metadata = {
-  title: 'Splitsville: Free HD Movies, TV Shows and Web Series',
-  description: 'Splitsville is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today! ',
+  title: 'Soap2day | Free HD Movies, TV Shows and Web Series',
+  description: 'Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today! ',
   openGraph: {
-    title: 'Splitsville: Free HD Movies, TV Shows and Web Series',
-    description: 'Splitsville is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today! ',
-    url: 'https://splitsvillemovie.netlify.app',
-    siteName: 'Splitsville',
+    title: 'Soap2day | Free HD Movies, TV Shows and Web Series',
+    description: 'Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today! ',
+    url: 'https://Soap2day-us.netlify.app',
+    siteName: 'Soap2day',
     images: [
       {
-        url: 'https://live.staticflickr.com/65535/54781392103_d6246d6730_b.jpg',
+        url: 'https://live.staticflickr.com/65535/54783257648_f9fd991eaf_b.jpg',
         width: 1200,
         height: 630,
-        alt: 'Splitsville - Free HD Movies, TV Shows and Web Series',
+        alt: 'Soap2day - Free HD Movies, TV Shows and Web Series',
       },
     ],
     locale: 'id_ID',
@@ -28,9 +28,9 @@ export const metadata = {
     card: 'summary_large_image',
     site: '@WatchStream123',
     creator: '@WatchStream123',
-    title: 'Splitsville: Free HD Movies, TV Shows and Web Series',
-    description: 'Splitsville is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today!',
-    images: ['https://live.staticflickr.com/65535/54781392103_d6246d6730_b.jpg'],
+    title: 'Soap2day | Free HD Movies, TV Shows and Web Series',
+    description: 'Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today!',
+    images: ['https://live.staticflickr.com/65535/54783257648_f9fd991eaf_b.jpg'],
   },
   // Tambahkan tag meta eksplisit untuk Facebook
   other: {
