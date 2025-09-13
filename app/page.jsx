@@ -83,7 +83,7 @@ export default function Home() {
         Soap2day
       </h1>
       <p className="text-xl md:text-2xl text-center text-gray-300 mb-12">
-        Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today!
+        Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series.
       </p>
 
       {loading ? (
