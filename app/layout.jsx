@@ -8,7 +8,7 @@ export const metadata = {
   description: 'Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. ',
   openGraph: {
     title: 'Soap2day | Free HD Movies, TV Shows and Web Series',
-    description: 'Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today! ',
+    description: 'Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. ',
     url: 'https://Soap2day-us.netlify.app',
     siteName: 'Soap2day',
     images: [
@@ -29,7 +29,7 @@ export const metadata = {
     site: '@WatchStream123',
     creator: '@WatchStream123',
     title: 'Soap2day | Free HD Movies, TV Shows and Web Series',
-    description: 'Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series. Start your free entertainment journey today!',
+    description: 'Soap2day is your one-stop destination for free movies, TV shows, and web series. Download thousands of titles in HD quality, with unlimited access to the latest blockbusters and trending series.',
     images: ['https://live.staticflickr.com/65535/54783257648_f9fd991eaf_b.jpg'],
   },
   // Tambahkan tag meta eksplisit untuk Facebook
